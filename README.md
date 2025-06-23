@@ -1,4 +1,4 @@
-## AWS Amplify Vue.js Starter Template
+## Service Appointment Calendar
 
 This repository provides a starter template for creating applications using Vue.js and AWS Amplify, emphasizing easy setup for authentication, API, and database capabilities.
 
@@ -15,7 +15,6 @@ This template equips you with a foundational Vue application integrated with AWS
 ## Deploying to AWS
 
 For detailed instructions on deploying your application, refer to the [deployment section](https://docs.amplify.aws/vue/start/quickstart/#deploy-a-fullstack-app-to-aws) of our documentation.
-
 
 ## Security
 
