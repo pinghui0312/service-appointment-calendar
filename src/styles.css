@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --*: initial;
+
+  --spacing: 4px;
+
+  --breakpoint-web: 1024px;
+  --breakpoint-tab: 768px;
+  --breakpoint-mobile: 375px;
+
+  --color-white: #fff;
+  --color-blue: #007fae;
+  --color-lightblue: #00beed;
+  --color-black: #000;
+}
+
+@layer components {
+  .typography {
+    p {
+      font-size: 16px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+}

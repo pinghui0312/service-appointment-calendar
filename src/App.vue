@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import Todos from './components/Todos.vue'
+import Appointment from "./components/Appointment.vue";
 </script>
 
 <template>
   <main>
-    <Todos />
+    <Appointment />
   </main>
 </template>
-
