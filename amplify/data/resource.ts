@@ -1,15 +1,17 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
+The section below creates a appointment database table with a "content" field. Try
 adding a new "isDone" field as a boolean. The authorization rule below
 specifies that any user authenticated via an API key can "create", "read",
-"update", and "delete" any "Todo" records.
+"update", and "delete" any "appointment" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  Appointment: a
     .model({
-      content: a.string(),
+      dentistName: a.string(),
+      equipment: a.string(),
+      notes: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
@@ -20,7 +22,6 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },
@@ -52,6 +53,6 @@ Fetch records from the database and use them in your frontend component.
 
 /* For example, in a React component, you can use this snippet in your
   function's RETURN statement */
-// const { data: todos } = await client.models.Todo.list()
+// const { data: appointments } = await client.models.appointment.list()
 
-// return <ul>{todos.map(todo => <li key={todo.id}>{todo.content}</li>)}</ul>
+// return <ul>{appointments.map(appointment => <li key={appointment.id}>{appointment.content}</li>)}</ul>
