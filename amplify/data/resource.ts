@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
+<<<<<<< HEAD
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
 adding a new "isDone" field as a boolean. The authorization rule below
@@ -10,6 +11,16 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
+=======
+const schema = a.schema({
+  Appointment: a
+    .model({
+      dentistName: a.string().required(),
+      equipment: a.string().required(),
+      notes: a.string(),
+      technicianId: a.id().required(),
+      dateTime: a.datetime().required(),
+>>>>>>> dev
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
@@ -20,12 +31,16 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: "apiKey",
+<<<<<<< HEAD
     // API Key is used for a.allow.public() rules
+=======
+>>>>>>> dev
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },
   },
 });
+<<<<<<< HEAD
 
 /*== STEP 2 ===============================================================
 Go to your frontend source code. From your client-side code, generate a
@@ -55,3 +70,5 @@ Fetch records from the database and use them in your frontend component.
 // const { data: todos } = await client.models.Todo.list()
 
 // return <ul>{todos.map(todo => <li key={todo.id}>{todo.content}</li>)}</ul>
+=======
+>>>>>>> dev

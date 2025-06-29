@@ -11,12 +11,23 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+<<<<<<< HEAD
     "aws-amplify": "^6.6.6",
+=======
+    "@aws-amplify/graphql-api-construct": "^1.20.3",
+    "@aws-amplify/ui-vue": "^4.3.3",
+    "@tailwindcss/vite": "^4.1.11",
+    "aws-amplify": "^6.15.1",
+    "tailwindcss": "^4.1.11",
+>>>>>>> dev
     "vue": "^3.4.21"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.5.0",
+<<<<<<< HEAD
     "@aws-amplify/backend-cli": "^1.2.9",
+=======
+>>>>>>> dev
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.12.5",
     "@vitejs/plugin-vue": "^5.0.4",
@@ -29,6 +40,10 @@
     "tsx": "^4.7.2",
     "typescript": "^5.4.5",
     "vite": "^5.4.10",
+<<<<<<< HEAD
+=======
+    "vite-svg-loader": "^5.1.0",
+>>>>>>> dev
     "vue-tsc": "^2.0.11"
   }
 }
