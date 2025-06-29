@@ -1,15 +1,4 @@
 <script setup lang="ts">
-<<<<<<< HEAD
-import Todos from './components/Todos.vue'
-</script>
-
-<template>
-  <main>
-    <Todos />
-  </main>
-</template>
-
-=======
 import Appointment from "./components/Appointment.vue";
 import { Authenticator } from "@aws-amplify/ui-vue";
 import { Amplify } from "aws-amplify";
@@ -42,4 +31,3 @@ Amplify.configure(outputs);
     </template>
   </authenticator>
 </template>
->>>>>>> dev
