@@ -3,16 +3,16 @@ import { generateClient } from "aws-amplify/data";
 
 const client = generateClient<Schema>();
 
-const getAppointmentList = async (nextToken: string | null | undefined) => {
+const getAppointmentList = async (nextToken: string | null | undefined, userId: string) => {
   const {
     data: appointments,
     nextToken: nextPageToken,
     // Repeat this API call with the nextToken until the returned nextToken is `null`
   } = await client.models.Appointment.list({
     filter: {
-      dentistName: {
-        contains: "111",
-      },
+      technicianId: {
+        contains: userId
+      }
     },
     limit: 2000,
     nextToken,
