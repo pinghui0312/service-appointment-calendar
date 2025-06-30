@@ -12,9 +12,6 @@ frontend:
       commands:
         - nvm install 22.16.0
         - nvm use 22.16.0
-        - rm -rf node_modules
-        - rm -rf .npm
-        - npm install
     build:
       commands:
         - npm run build
