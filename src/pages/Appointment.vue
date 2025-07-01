@@ -5,6 +5,7 @@ import type { Schema } from "../../amplify/data/resource";
 import Table from "../components/Table.vue";
 import AppointmentDetail from "../components/AppointmentDetail.vue";
 import { Dialog } from "primevue";
+import IconButton from "../components/IconButton.vue";
 
 type AppointmentProps = {
   userId: string;
@@ -73,7 +74,9 @@ onMounted(async () => {
     <h1>My appointments</h1>
     <div className="flex flex-col gap-y-4 w-full max-w-[1028px] items-center">
       <div className="tab:flex hidden flex-row w-full justify-end">
-        <button className="btn" @click="onClickOpenDialog">Add New</button>
+        <button className="btn tab:block hidden" @click="onClickOpenDialog">
+          Add New
+        </button>
       </div>
       <Table
         :appointments="appointments"
@@ -89,6 +92,11 @@ onMounted(async () => {
             >
           </button>
     </div> -->
+    <IconButton
+      className="fixed tab:hidden block bottom-[16px] left-[16px]"
+      :onClick="onClickOpenDialog"
+      :icon="'pi-plus'"
+    />
   </section>
   <Dialog
     className="w-full web:max-w-3/4 max-w-full mx-4 bg-white text-black"

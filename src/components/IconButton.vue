@@ -2,17 +2,19 @@
 import { defineProps } from "vue";
 
 type IconButtonProps = {
-    onClick: () => void
-    icon: string
-}
+  onClick: () => void;
+  icon: string;
+  className?: string;
+};
 
-const { onClick, icon } = defineProps<IconButtonProps>();
+const { onClick, icon, className } = defineProps<IconButtonProps>();
 
-const iconClass = `pi ${icon}`
+const iconClass = `pi ${icon}`;
+const iconClassName = `${className} p-4 rounded-full bg-blue cursor-pointer`;
 </script>
 
 <template>
-    <div className="p-4 rounded-full bg-blue cursor-pointer" @click="onClick">
-        <i :class='iconClass' style="color: white; display: block"></i>
-    </div>
+  <div :className="iconClassName" @click="onClick">
+    <i :class="iconClass" style="color: white; display: block"></i>
+  </div>
 </template>
