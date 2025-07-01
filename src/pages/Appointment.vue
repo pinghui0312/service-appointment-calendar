@@ -58,8 +58,8 @@ onMounted(async () => {
 <template>
   <section className="flex flex-col items-center w-full max-w-[1440px] px-4 gap-y-8">
     <h1>My appointments</h1>
-    <div className="flex flex-col gap-y-4 w-full items-center">
-      <div className="tab:flex hidden flex-row w-full max-w-[1028px] justify-end">
+    <div className="flex flex-col gap-y-4 w-full max-w-[1028px] items-center">
+      <div className="tab:flex hidden flex-row w-full justify-end">
         <button className="btn" @click="onClickOpenDialog">Add New</button>
       </div>
       <Table :appointments="appointments" :initList="initAppointmentList" :userId="userId" />

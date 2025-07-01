@@ -9,6 +9,7 @@ const schema = a.schema({
       technicianId: a.id().required(),
       dateTime: a.datetime().required(),
     })
+    .secondaryIndexes((index) => [index("technicianId").sortKeys(["dateTime"])])
     .authorization((allow) => [allow.publicApiKey()]),
 });
 
