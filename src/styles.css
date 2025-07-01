@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--color-lightblue), #fff);
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
 @theme {
   --*: initial;
 
@@ -16,14 +28,6 @@
   --color-black: #000;
   --color-red: #ff0000;
   --color-gray: #e2e8f0;
-}
-
-body {
-  margin: 0;
-  background: linear-gradient(180deg, var(--color-lightblue), #fff);
-  display: flex;
-  height: 100vh;
-  width: 100vw;
 }
 
 @layer typography {

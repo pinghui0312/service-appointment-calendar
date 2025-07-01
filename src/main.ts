@@ -11,6 +11,9 @@ createApp(App)
   .use(PrimeVue, {
     theme: {
       preset: Aura,
+      options: {
+        darkModeSelector: false,
+      },
     },
   })
   .mount("#app");

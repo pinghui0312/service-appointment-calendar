@@ -1,108 +1,77 @@
 <script setup lang="ts">
 import {
-  createAppointment,
-  updateAppointment,
+    createAppointment,
+    updateAppointment,
 } from "../../amplify/backend/functions";
 import { defineProps, ref } from "vue";
 import type { Schema } from "../../amplify/data/resource";
-import { Dialog, DatePicker } from "primevue";
+import { DatePicker } from "primevue";
 
-const props = defineProps({
-  userId: {
-    default: "",
-  },
-  appointment: {
-    default: undefined as Schema["Appointment"]["type"] | undefined,
-  },
-});
+type AppointmentDetailProps = {
+    userId: string;
+    appointment?: Schema["Appointment"]["type"];
+    viewOnly?: boolean;
+    initList?: () => Promise<void>;
+}
 
-const dentistName = ref("");
-const equipment = ref("");
-const dateTime = ref(new Date());
-const notes = ref("");
-const visible = ref(false);
-const isUpdateAction = props.appointment !== undefined;
+const { userId = '', appointment, viewOnly = false, initList } = defineProps<AppointmentDetailProps>();
 
-const onClickSubmit = () => {
-  const performAction = isUpdateAction ? updateAppointment : createAppointment;
-  let params = {
-    ...(isUpdateAction ? { id: props.appointment.id } : {}),
-    dentistName: dentistName.value,
-    equipment: equipment.value,
-    notes: notes.value,
-    technicianId: props.userId,
-    dateTime: dateTime.value.toISOString(),
-  };
-  performAction(params as Schema["Appointment"]["type"]);
-};
+const dentistName = ref(appointment?.dentistName ?? '');
+const equipment = ref(appointment?.equipment ?? '');
+const dateTime = ref(appointment?.dateTime ? new Date(appointment?.dateTime) : new Date());
+const notes = ref(appointment?.notes ?? '');
+const isUpdateAction = appointment !== undefined;
 
-const onClickOpen = () => {
-  visible.value = true;
+const onClickSubmit = async () => {
+    // switch functions based on actions to be done
+    const performAction = isUpdateAction ? updateAppointment : createAppointment;
+    let params = {
+        ...(isUpdateAction ? { id: appointment.id } : {}),
+        dentistName: dentistName.value,
+        equipment: equipment.value,
+        notes: notes.value,
+        technicianId: userId,
+        dateTime: dateTime.value.toISOString(),
+    };
+    await performAction(params as Schema["Appointment"]["type"]);
+    if (initList) {
+        await initList()
+    }
 };
 </script>
 
 <template>
-  <button className="btn" @click="onClickOpen">New</button>
-  <Dialog
-    className="w-full web:max-w-3/4 max-w-full mx-4 bg-white text-black"
-    v-model:visible="visible"
-    modal
-    header="Appointment Details"
-  >
     <form v-on:submit.prevent="onClickSubmit">
-      <div
-        className="flex tab:flex-row flex-col flex-1 items-center gap-4 flex-wrap"
-      >
-        <div className="flex flex-col gap-y-1 w-full">
-          <p className="font-semibold">Dentist Name*</p>
-          <input
-            required
-            className="border border-gray rounded-[8px] p-2"
-            v-model="dentistName"
-            placeholder="Dentist Name"
-          />
+        <div className="flex tab:flex-row flex-col flex-1 items-center gap-4 flex-wrap">
+            <div className="flex flex-col gap-y-1 w-full">
+                <p className="font-semibold">Dentist Name*</p>
+                <input :disabled='viewOnly' required className="border border-gray rounded-[8px] p-2"
+                    v-model="dentistName" placeholder="Dentist Name" />
+            </div>
+            <div className="flex flex-col gap-y-1 tab:flex-[calc(50%-16px)] flex-1 w-full">
+                <p className="font-semibold">Equipment*</p>
+                <select :disabled='viewOnly' required className="border border-gray rounded-[8px] p-2"
+                    v-model="equipment">
+                    <option disabled value="">Please select one</option>
+                    <option>Compressor</option>
+                    <option>Suction Machine</option>
+                    <option>Scanner</option>
+                    <option>Hygiene Equipment</option>
+                </select>
+            </div>
+            <div className="flex flex-col gap-y-1 tab:flex-[calc(50%-16px)] flex-1 w-full">
+                <p className="font-semibold">Appointment Time*</p>
+                <DatePicker :disabled='viewOnly' className="flex" v-model="dateTime" showTime hourFormat="12" fluid
+                    placeholder="dateTime" :minDate="new Date()" />
+            </div>
+            <div className="flex flex-col gap-y-1 w-full">
+                <p className="font-semibold">Notes</p>
+                <textarea :disabled='viewOnly' className="border border-gray rounded-[8px] p-2" v-model="notes"
+                    placeholder="Notes" />
+            </div>
         </div>
-        <div
-          className="flex flex-col gap-y-1 tab:flex-[calc(50%-16px)] flex-1 w-full"
-        >
-          <p className="font-semibold">Equipment*</p>
-          <select
-            required
-            className="border border-gray rounded-[8px] p-2"
-            v-model="equipment"
-          >
-            <option disabled value="">Please select one</option>
-            <option>Compressor</option>
-            <option>Suction Machine</option>
-            <option>Scanner</option>
-            <option>Hygiene Equipment</option>
-          </select>
+        <div v-if="!viewOnly" className="flex flex-row justify-center mt-4">
+            <button className="btn" type="submit">Submit</button>
         </div>
-        <div
-          className="flex flex-col gap-y-1 tab:flex-[calc(50%-16px)] flex-1 w-full"
-        >
-          <p className="font-semibold">Appointment Time*</p>
-          <DatePicker
-            className="flex"
-            v-model="dateTime"
-            showTime
-            hourFormat="12"
-            fluid
-            placeholder="dateTime"
-          />
-        </div>
-        <div className="flex flex-col gap-y-1 w-full">
-          <p className="font-semibold">Notes</p>
-          <textarea
-            className="border border-gray rounded-[8px] p-2"
-            v-model="notes"
-            placeholder="Notes"
-          />
-        </div>
-      </div>
-      <div className="flex flex-row justify-center mt-4">
-        <button className="btn" type="submit">Submit</button>
-      </div>
     </form>
-  </Dialog>
 </template>
