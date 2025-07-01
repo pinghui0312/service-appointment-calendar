@@ -15,8 +15,6 @@ const props = defineProps<AppointmentProps>();
 
 // create a reactive reference to the array of appointments
 const appointments = ref<Array<Schema["Appointment"]["type"]>>([]);
-const nextToken = ref<string | null | undefined>(undefined);
-const lastTokenList = ref<Array<string | null | undefined>>([]);
 const selectedAppointment = ref<Schema["Appointment"]["type"] | undefined>(
   undefined
 );
@@ -24,37 +22,8 @@ const visible = ref<boolean>(false);
 
 const initAppointmentList = async () => {
   // update the list right after making amendments on appointments
-  lastTokenList.value = [undefined];
-  const { data, nextPageToken } = await getAppointmentList(
-    undefined,
-    props.userId
-  );
+  const { data } = await getAppointmentList(props.userId);
   appointments.value = data;
-  nextToken.value = nextPageToken;
-};
-
-// pagination handling
-const getPreviousList = async () => {
-  lastTokenList.value = lastTokenList.value.slice(0, -1);
-  const { data, nextPageToken } = await getAppointmentList(
-    lastTokenList.value[lastTokenList.value.length - 1],
-    props.userId
-  );
-  appointments.value = data;
-  nextToken.value = nextPageToken;
-};
-
-// pagination handling
-const getNextList = async () => {
-  if (!lastTokenList.value.includes(nextToken.value)) {
-    lastTokenList.value = [...lastTokenList.value, nextToken.value];
-  }
-  const { data, nextPageToken } = await getAppointmentList(
-    nextToken.value,
-    props.userId
-  );
-  appointments.value = data;
-  nextToken.value = nextPageToken;
 };
 
 const onClickOpenDialog = () => {
@@ -84,14 +53,6 @@ onMounted(async () => {
         :userId="userId"
       />
     </div>
-    <!-- <div className="flex flex-row gap-x-8 items-center">
-      <button :disabled="lastTokenList.length <= 1" className="p-2 btn" @click="getPreviousList">
-        < </button>
-          <p>Page {{ lastTokenList.length }}</p>
-          <button :disabled="nextToken === null" className="p-2 btn" @click="getNextList">
-            >
-          </button>
-    </div> -->
     <IconButton
       className="fixed tab:hidden block bottom-[16px] left-[16px]"
       :onClick="onClickOpenDialog"
