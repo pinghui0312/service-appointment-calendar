@@ -17,12 +17,12 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.3.5",
     "tailwindcss": "^4.1.11",
+    "@tailwindcss/vite": "^4.1.11",
     "vue": "^3.4.21"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.5.0",
     "@aws-amplify/backend-cli": "^1.2.9",
-    "@tailwindcss/vite": "^4.1.11",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.12.5",
     "@vitejs/plugin-vue": "^5.0.4",
