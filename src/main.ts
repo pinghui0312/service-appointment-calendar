@@ -4,6 +4,7 @@ import { Amplify } from "aws-amplify";
 import outputs from "../amplify_outputs.json";
 import PrimeVue from "primevue/config";
 import Aura from "@primeuix/themes/aura";
+import ToastService from 'primevue/toastservice';
 
 Amplify.configure(outputs);
 
@@ -16,4 +17,5 @@ createApp(App)
       },
     },
   })
+  .use(ToastService)
   .mount("#app");

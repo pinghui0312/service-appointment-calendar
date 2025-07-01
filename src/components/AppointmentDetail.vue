@@ -5,7 +5,9 @@ import {
 } from "../../amplify/backend/functions";
 import { defineProps, ref } from "vue";
 import type { Schema } from "../../amplify/data/resource";
-import { DatePicker } from "primevue";
+import { DatePicker, Toast } from "primevue";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 type AppointmentDetailProps = {
     userId: string;
@@ -25,6 +27,8 @@ const isUpdateAction = appointment !== undefined;
 const onClickSubmit = async () => {
     // switch functions based on actions to be done
     const performAction = isUpdateAction ? updateAppointment : createAppointment;
+    const summary = isUpdateAction ? "Appointment Updated" : "Appointment Created";
+    const detail = isUpdateAction ? "Appointment Updated successfully" : "Appointment created successfully";
     let params = {
         ...(isUpdateAction ? { id: appointment.id } : {}),
         dentistName: dentistName.value,
@@ -37,10 +41,12 @@ const onClickSubmit = async () => {
     if (initList) {
         await initList()
     }
+    toast.add({ severity: 'success', summary, detail, life: 3000 });
 };
 </script>
 
 <template>
+    <Toast />
     <form v-on:submit.prevent="onClickSubmit">
         <div className="flex tab:flex-row flex-col flex-1 items-center gap-4 flex-wrap">
             <div className="flex flex-col gap-y-1 w-full">

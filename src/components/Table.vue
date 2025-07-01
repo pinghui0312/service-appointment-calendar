@@ -3,8 +3,10 @@ import { defineProps, ref } from "vue";
 import type { Schema } from "../../amplify/data/resource";
 import { deleteAppointment } from "../../amplify/backend/functions";
 import IconButton from "./IconButton.vue";
-import { Dialog } from "primevue";
+import { Dialog, Toast } from "primevue";
 import AppointmentDetail from '../components/AppointmentDetail.vue';
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 type Appointment = Schema["Appointment"]["type"];
 type TableProps = {
@@ -24,6 +26,8 @@ const onClickDelete = async (appointment: Appointment) => {
     if (initList) {
         await initList()
     }
+    toast.add({ severity: 'success', summary: 'Appointment Deleted', detail: 'Appointment Deleted Successfully', life: 3000 });
+
 };
 
 const onClickEdit = (appointment: Appointment) => {
@@ -58,6 +62,7 @@ const formatDateTime = (date: string) => {
 </script>
 
 <template>
+    <Toast />
     <table className="w-full max-w-[1028px] border border-darkblue">
         <tbody>
             <tr v-if="appointments.length > 0" className="bg-darkblue">

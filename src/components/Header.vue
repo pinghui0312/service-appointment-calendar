@@ -18,7 +18,7 @@ const props = defineProps({
         <div className="flex flex-row justify-between items-center w-full max-w-[1440px]">
             <div className="flex flex-row gap-4 items-center">
                 <img className="h-10" :src="Logo" alt="logo" />
-                <h2 className="text-black">Welcome back, {{ name }}!</h2>
+                <h2 className="text-black tab:block hidden">Welcome back, {{ name }}!</h2>
             </div>
             <button className="btn" @click="props.signOut">Sign Out</button>
         </div>
