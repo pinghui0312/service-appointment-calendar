@@ -2,8 +2,7 @@
 import { defineProps, ref } from "vue";
 import type { Schema } from "../../amplify/data/resource";
 import { deleteAppointment } from "../../amplify/backend/functions";
-import IconButton from "./IconButton.vue";
-import { Dialog, Toast } from "primevue";
+import { Dialog, Toast, DataTable, Column, Button, Menu } from "primevue";
 import AppointmentDetail from '../components/AppointmentDetail.vue';
 import { useToast } from "primevue/usetoast";
 const toast = useToast();
@@ -19,6 +18,7 @@ const { appointments, initList, userId } = defineProps<TableProps>();
 const visible = ref(false);
 const selectedAppointment = ref<Appointment | undefined>(undefined);
 const viewOnly = ref(false);
+const menu = ref();
 
 const onClickDelete = async (appointment: Appointment) => {
     const { id } = appointment;
@@ -27,7 +27,6 @@ const onClickDelete = async (appointment: Appointment) => {
         await initList()
     }
     toast.add({ severity: 'success', summary: 'Appointment Deleted', detail: 'Appointment Deleted Successfully', life: 3000 });
-
 };
 
 const onClickEdit = (appointment: Appointment) => {
@@ -42,14 +41,11 @@ const onClickView = (appointment: Appointment) => {
     visible.value = true;
 };
 
-// data lists
-const headerList = ['Dentist Name', 'Appointment Time']
-const iconButtonList = [
-    { onClick: onClickView, icon: 'pi-eye' },
-    { onClick: onClickEdit, icon: 'pi-pencil' },
-    { onClick: onClickDelete, icon: 'pi-trash' },
-]
+const toggle = (event: MouseEvent) => {
+    menu.value.toggle(event);
+};
 
+// format date for display
 const formatDateTime = (date: string) => {
     const dateObj = new Date(date);
     const formattedDate = dateObj.toISOString().split("T")[0];
@@ -59,36 +55,51 @@ const formatDateTime = (date: string) => {
     });
     return `${formattedDate} ${formattedTime}`;
 };
+
+const getActionItems = (appointment: Appointment) => {
+    return [
+        {
+            label: 'Options',
+            items: [
+                {
+                    label: 'View',
+                    icon: 'pi pi-eye',
+                    command: () => onClickView(appointment)
+                },
+                {
+                    label: 'Update',
+                    icon: 'pi pi-pencil',
+                    command: () => onClickEdit(appointment)
+                },
+                {
+                    label: 'Delete',
+                    icon: 'pi pi-trash',
+                    command: () => onClickDelete(appointment)
+                }
+            ]
+        }
+    ]
+};
 </script>
 
 <template>
     <Toast />
-    <table className="w-full max-w-[1028px] border border-darkblue">
-        <tbody>
-            <tr v-if="appointments.length > 0" className="bg-darkblue">
-                <th v-for="header in headerList" className="p-4 text-center">
-                    <p className="text-white font-semibold">{{ header }}</p>
-                </th>
-                <th className="p-4"></th>
-            </tr>
-            <tr className="border-b border-b-darkblue" v-for="appointment in appointments" :key="appointment.id">
-                <td className="p-4 text-center">
-                    <p className="text-black">{{ appointment.dentistName }}</p>
-                </td>
-                <td className="p-4 text-center">
-                    <p className="text-black">
-                        {{ formatDateTime(appointment.dateTime) }}
-                    </p>
-                </td>
-                <td className="p-4 text-center">
-                    <div className="flex flex-row gap-x-2 justify-end">
-                        <IconButton v-for="button in iconButtonList" :onClick="() => button.onClick(appointment)"
-                            :icon="button.icon" />
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <DataTable showGridlines paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" stripedRows className="w-full"
+        :value="appointments" tableStyle="width: 100%">
+        <Column field="dentistName" header="Dentist Name" sortable></Column>
+        <Column field="dateTime" header="Appointment Time" sortable>
+            <template #body="slotProps">
+                {{ formatDateTime(slotProps.data.dateTime) }}
+            </template>
+        </Column>
+        <Column>
+            <template #body="slotProps">
+                <Button className="rounded-full cursor-pointer" type="button" icon="pi pi-ellipsis-v" @click="toggle"
+                    aria-haspopup="true" aria-controls="overlay-menu" />
+                <Menu ref="menu" id="overlay-menu" :model="getActionItems(slotProps.data)" :popup="true" />
+            </template>
+        </Column>
+    </DataTable>
     <Dialog className="w-full web:max-w-3/4 max-w-full mx-4 bg-white text-black" v-model:visible="visible" modal
         header="Appointment Details">
         <AppointmentDetail :userId="userId" :appointment="selectedAppointment" :viewOnly="viewOnly"

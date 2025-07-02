@@ -38,7 +38,7 @@ onMounted(async () => {
 
 <template>
   <section
-    className="flex flex-col items-center w-full max-w-[1440px] px-4 gap-y-8"
+    className="flex flex-col items-center w-full max-w-[1440px] px-4 gap-y-8 pb-8"
   >
     <h1>My appointments</h1>
     <div className="flex flex-col gap-y-4 w-full max-w-[1028px] items-center">

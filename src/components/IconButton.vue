@@ -7,10 +7,10 @@ type IconButtonProps = {
   className?: string;
 };
 
-const { onClick, icon, className } = defineProps<IconButtonProps>();
+const { onClick, icon, className = '' } = defineProps<IconButtonProps>();
 
 const iconClass = `pi ${icon}`;
-const iconClassName = `${className} p-4 rounded-full bg-blue cursor-pointer`;
+const iconClassName = `p-4 rounded-full bg-blue cursor-pointer ${className}`;
 </script>
 
 <template>
