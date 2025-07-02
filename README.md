@@ -1,25 +1,32 @@
 ## Service Appointment Calendar
 
-This repository provides a starter template for creating applications using Vue.js and AWS Amplify, emphasizing easy setup for authentication, API, and database capabilities.
+This repository provides a services appointments management system for technicians. It contains functions such as create, edit and delete to manage their appointments accordingly.
 
-## Overview
-
-This template equips you with a foundational Vue application integrated with AWS Amplify, streamlined for scalability and performance. It is ideal for developers looking to jumpstart their project with pre-configured AWS services like Cognito, AppSync, and DynamoDB.
-
-## Features
+## Non Functional Features
 
 - **Authentication**: Setup with Amazon Cognito for secure user authentication.
 - **API**: Ready-to-use GraphQL endpoint with AWS AppSync.
 - **Database**: Real-time database powered by Amazon DynamoDB.
 
-## Deploying to AWS
+## Installation
+First, execute the command to install all the dependencies needed for this project.
 
-For detailed instructions on deploying your application, refer to the [deployment section](https://docs.amplify.aws/vue/start/quickstart/#deploy-a-fullstack-app-to-aws) of our documentation.
+```bash
+npm install
+```
 
-## Security
+After the installation is done, put the amplify_outputs.json file provided into this project.
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+Then, run the development server:
 
-## License
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-This library is licensed under the MIT-0 License. See the LICENSE file.
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
