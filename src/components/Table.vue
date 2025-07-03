@@ -55,31 +55,6 @@ const formatDateTime = (date: string) => {
     });
     return `${formattedDate} ${formattedTime}`;
 };
-
-const getActionItems = (appointment: Appointment) => {
-    return [
-        {
-            label: 'Options',
-            items: [
-                {
-                    label: 'View',
-                    icon: 'pi pi-eye',
-                    command: () => onClickView(appointment)
-                },
-                {
-                    label: 'Update',
-                    icon: 'pi pi-pencil',
-                    command: () => onClickEdit(appointment)
-                },
-                {
-                    label: 'Delete',
-                    icon: 'pi pi-trash',
-                    command: () => onClickDelete(appointment)
-                }
-            ]
-        }
-    ]
-};
 </script>
 
 <template>
@@ -93,10 +68,12 @@ const getActionItems = (appointment: Appointment) => {
             </template>
         </Column>
         <Column>
-            <template #body="slotProps">
-                <Button className="rounded-full cursor-pointer" type="button" icon="pi pi-ellipsis-v" @click="toggle"
-                    aria-haspopup="true" aria-controls="overlay-menu" />
-                <Menu ref="menu" id="overlay-menu" :model="getActionItems(slotProps.data)" :popup="true" />
+            <template #body="{ data }">
+                <div className="flex tab:flex-row flex-col gap-2">
+                    <Button icon="pi pi-eye" rounded severity="contrast" @click="onClickView(data)" />
+                    <Button icon="pi pi-pencil" rounded severity="contrast" @click="onClickEdit(data)" />
+                    <Button icon="pi pi-trash" rounded severity="contrast" @click="onClickDelete(data)" />
+                </div>
             </template>
         </Column>
     </DataTable>
